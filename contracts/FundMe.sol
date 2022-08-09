@@ -74,7 +74,17 @@ contract FundMe {
          // checks if withdraw is called by the owner
          require(msg.sender == i_owner, "Only the owner of the contract can withdraw funds!");
          _;
-        } 
+        }
+
+        // What happens if someone sends ETH without calling the fund function
+
+        receive() external payable {
+            fund();
+        }
+
+        fallback() external payable {
+            fund();
+        }
 
 
 }
