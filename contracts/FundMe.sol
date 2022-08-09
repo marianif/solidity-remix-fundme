@@ -14,22 +14,22 @@ contract FundMe {
     using PriceConverter for uint256;
     
     // declaring minimun required amount in USD
-    uint public minUsd = 50 * 1e18;
+    uint public constant MIN_USD = 50 * 1e18;
 
     address[] public funders;
     mapping(address => uint256) public addressToAmount;
 
-    address public owner; 
+    address public immutable i_owner; 
 
     // constructor are special functions called when contract is deployed
 
     constructor(){
         // owner gets initialized with the address of the sender i.e address that deployes the contract
-        owner = msg.sender;
+        i_owner = msg.sender;
     }
 
     function fund() public payable {
-        require(msg.value.getConversionRate() >= minUsd, "Funding amount must be at least $50");
+        require(msg.value.getConversionRate() >= MIN_USD, "Funding amount must be at least $50");
         funders.push(msg.sender);
         addressToAmount[msg.sender] += msg.value;
     }
@@ -72,7 +72,7 @@ contract FundMe {
     
         modifier onlyOwner {
          // checks if withdraw is called by the owner
-         require(msg.sender == owner, "Only the owner of the contract can withdraw funds!");
+         require(msg.sender == i_owner, "Only the owner of the contract can withdraw funds!");
          _;
         } 
 
