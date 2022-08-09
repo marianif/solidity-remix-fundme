@@ -14,7 +14,7 @@ contract FundMe {
     using PriceConverter for uint256;
     
     // declaring minimun required amount in USD
-    uint public minUsd = 50;
+    uint public minUsd = 50 * 1e18;
 
     address[] public funders;
     mapping(address => uint256) public addressToAmount;
